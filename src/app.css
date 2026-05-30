@@ -1,0 +1,215 @@
+body {
+  margin: 0;
+  font-family: 'Noto Sans TC','Microsoft JhengHei','微軟正黑體',sans-serif;
+}
+.main-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('/public/music-bg.jpg') center center/cover no-repeat fixed;
+  z-index: 0;
+}
+.main-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(8px) brightness(0.67) saturate(120%);
+  opacity: 0.82;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 卡片 */
+.center-card {
+  z-index: 10;
+  position: relative;
+  background: rgba(255,255,255,0.98);
+  max-width: 540px;
+  width: 95vw;
+  margin: 56px auto 0 auto;
+  border-radius: 27px;
+  padding: 38px 20px 44px 20px;
+  box-shadow: 0 6px 36px rgba(80,38,160,0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .center-card {
+    padding: 8vw 1.8vw 7vw 1.8vw;
+    margin: 13px auto 0 auto;
+    max-width: 99vw;
+  }
+}
+
+/* 音樂進度條設計 */
+.music-progress-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  margin-top: 12px;
+}
+.music-time {
+  font-size: 1rem;
+  color: #a356af;
+  min-width: 40px;
+  text-align: center;
+  font-family: 'Noto Sans TC',sans-serif;
+  letter-spacing: .4px;
+}
+
+.music-bar-outer {
+  flex: 1;
+  position: relative;
+  margin: 0 12px;
+  height: 14px;
+  background: none;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+}
+.music-bar-bg {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 100%;
+  height: 4px;
+  background: #e6daff;
+  border-radius: 999px;
+  z-index: 0;
+}
+.music-bar {
+  position: absolute;
+  left: 0; top: 6px;
+  height: 4px;
+  background: linear-gradient(90deg,#a356af 0%,#728dbb 100%);
+  border-radius: 999px;
+  z-index: 1;
+  transition: width .3s;
+}
+.music-dot {
+  position: absolute;
+  top: -7px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #a356af;
+  box-shadow: 0 1.5px 6px rgba(131,60,158,0.13);
+  z-index: 9;
+  transition: left 0.25s;
+}
+
+/* preview/title/題目置中 */
+.quiz-preview-center {
+  text-align: center;
+  font-size: 1.08rem;
+  color: #7a5bc3;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.quiz-qtext-center {
+  text-align: center;
+  margin: 34px 0 14px 0;
+  font-size: 1.21rem;
+  font-weight: 700;
+  color: #363659;
+}
+
+/* 黑膠往下移一點 */
+.vinyl-area.move-down {
+  margin-top: 15px;
+  margin-bottom: 12px;
+}
+.vinyl-area {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.vinyl-spin {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  animation: vinyl-rotate 4s linear infinite;
+  box-shadow: 0 4px 24px rgb(0 0 0 / 10%);
+  object-fit: cover;
+  background: #fff;
+  display: block;
+}
+@keyframes vinyl-rotate { from { transform: rotate(0deg);} to   { transform: rotate(360deg);}}
+.vinyl-dot {
+  width: 26px;
+  height: 26px;
+  background: #222;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -13px;
+  margin-top: -13px;
+  border: 3px solid #fff;
+  z-index: 3;
+}
+/* 主題色（你可調整） */
+.biz-theme { background: #ecfff7!important;}
+.fs-theme { background: #eef6fe!important;}
+.soul-theme { background: #faf3fd!important;}
+.detail-theme { background: #fff8e9!important;}
+.result-title.fs-theme { color: #285ea8;}
+.result-title.soul-theme { color: #a356af;}
+.result-title.detail-theme { color: #b88a3e;}
+.result-title.biz-theme { color: #158b65;}
+.quiz-options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 16px 0 0 0;
+  align-items: center;
+}
+.playlist-btn {
+  background: #dbeafe;
+  border: 1.3px solid #b6b7c7;
+  border-radius: 14px;
+  color: #212134;
+  font-size: 1.07rem;
+  padding: 17px 0;
+  width: 100%;
+  max-width: 420px;
+  min-width: 0;
+  box-sizing: border-box;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 auto;
+  transition: background 0.18s, border 0.10s;
+}
+.playlist-btn:hover {
+  background: linear-gradient(90deg, #cee0ff 0%, #edf4ff 100%);
+  border-color: #6a83b8;
+}
+.try-again-btn {
+  margin-top: 18px;
+  padding: 9px 26px;
+  background: #383868;
+  color: #fff;
+  border: none;
+  border-radius: 2em;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.25s;
+}
+.try-again-btn:hover { background: #8d469c; }
+.result-title { font-size: 2rem; font-weight: 700; letter-spacing: 2.5px; margin-top: 18px; margin-bottom: 18px; text-align: center;}
+.result-desc { font-size: 1.2rem; margin-bottom: 24px; color: #232; font-weight: 400;}
+.result-hr { margin: 24px 0 16px 0; border: none; border-top: 1.5px solid #d7dae5; width: 80%; }
+.rec-song { font-size: 1.1rem; font-weight: 700; color: #2a2d36; margin-bottom: 18px; }
