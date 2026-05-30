@@ -2,7 +2,7 @@ const resultTypes = {
     FS: {
       title: "媽粉守護型",
       desc: "你有一顆溫暖又細心的心，總是像媽媽一樣守護支持偶像。",
-      song: "First Snow - EXO",
+      song: "Feel Special - TWICE",
       vinylImg: "/fs.svg"
     },
     SOUL: {
@@ -13,7 +13,7 @@ const resultTypes = {
     },
     DETAIL: {
       title: "細節控粉",
-      desc: "超愛解析MV、推理每個舞台巧思，觀察偶像的創意與表現細節！",
+      desc: "超愛解析MV、推理每個舞台巧思，觀察創意與表現細節！",
       song: "Next Level - aespa",
       vinylImg: "/nextlevel.svg"
     },

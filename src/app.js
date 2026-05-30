@@ -78,10 +78,12 @@ function formatTime(n) {
 }
 
 export default function App() {
+  // 新增一個狀態來控制是否顯示封面頁
+  const [isStarted, setIsStarted] = useState(false);
+  
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState([]);
   const total = questions.length;
-  // 只有一題時避免被除以0出bug
   const percent = total > 1 ? ((step) / (total - 1)) * 100 : 100; 
 
   function handleOptionClick(optionType) {
@@ -89,17 +91,37 @@ export default function App() {
     setStep(prev => prev + 1);
   }
 
+  // ===== 1. 尚未開始時，顯示封面頁 =====
+  if (!isStarted) {
+    return (
+      <div className="main-bg">
+        {/* 這裡的 class 可以在 app.css 裡對應我們剛剛寫的封面樣式 */}
+        <div className="cover-screen">
+          <div className="cover-bg-blur"></div> 
+          <div className="cover-content">
+            <div className="album-tag">NEW RELEASE</div>
+            <h1 className="main-title">測出你的飯圈 DNA</h1>
+            <p className="sub-title">刻錄你的追星軌跡，播放靈魂深處的專屬單曲<br/>透過 6 題情境心理測驗，解鎖你的專屬黑膠。</p>
+            <button className="play-button" onClick={() => setIsStarted(true)}>▶ 立即播放</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ===== 2. 測驗結束時，顯示結果頁 =====
   if (step >= total) {
     const resultCode = getResultType(answers);
     const result = resultTypes[resultCode];
     const themeKey = resultCode ? resultCode.toLowerCase() + '-theme' : '';
+    
     if (!result) {
       return (
         <div className="main-bg">
           <div className="center-card">
             <h2>查無此型別結果：{String(resultCode)}</h2>
             <div>請確認 options 的 type 是否對應 resultTypes.js 的 key！</div>
-            <button className="try-again-btn" onClick={() => { setStep(0); setAnswers([]); }}>再測一次</button>
+            <button className="try-again-btn" onClick={() => { setIsStarted(false); setStep(0); setAnswers([]); }}>再測一次</button>
           </div>
         </div>
       );
@@ -117,17 +139,16 @@ export default function App() {
           <div className="rec-song">
             <b>推薦單曲：</b>{result.song}
           </div>
-          <button className="try-again-btn" onClick={() => { setStep(0); setAnswers([]); }}>再測一次</button>
+          <button className="try-again-btn" onClick={() => { setIsStarted(false); setStep(0); setAnswers([]); }}>再測一次</button>
         </div>
       </div>
     );
   }
 
+  // ===== 3. 測驗進行中，顯示題目 =====
   return (
     <div className="main-bg">
       <div className="center-card">
-        {/* 你若覺得preview沒必要可直接移除這行 */}
-        {/* <div className="quiz-preview quiz-preview-center">{questions[step].preview}</div> */}
         {/* 音樂進度條 */}
         <div className="music-progress-row">
           <span className="music-time">{formatTime(step + 1)}</span>

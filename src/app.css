@@ -213,3 +213,76 @@ body {
 .result-desc { font-size: 1.2rem; margin-bottom: 24px; color: #232; font-weight: 400;}
 .result-hr { margin: 24px 0 16px 0; border: none; border-top: 1.5px solid #d7dae5; width: 80%; }
 .rec-song { font-size: 1.1rem; font-weight: 700; color: #2a2d36; margin-bottom: 18px; }
+/* === 1. 封面頁樣式 (毛玻璃專輯牆) === */
+.cover-screen {
+  position: absolute; 
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  z-index: 100; 
+  overflow: hidden; 
+  background: #000;
+  transition: opacity 0.5s ease, visibility 0.5s; /* 淡出動畫 */
+}
+
+.cover-bg-blur {
+  position: absolute; 
+  width: 100%; 
+  height: 100%;
+  /* 👇 這裡記得換成你上傳的專輯牆圖片網址！ */
+  background-image: url('/public/music-bg.jpg'); 
+  background-size: cover; 
+  background-position: center;
+  filter: blur(10px) brightness(0.4); 
+  transform: scale(1.1);
+}
+
+.cover-content { 
+  position: relative; 
+  text-align: center; 
+  color: white; 
+  padding: 20px; 
+}
+
+.album-tag { 
+  color: #1ED760; 
+  font-weight: 700; 
+  letter-spacing: 2px; 
+  margin-bottom: 10px; 
+  font-size: 14px; 
+}
+
+.main-title { 
+  font-size: 42px; 
+  font-weight: 900; 
+  margin-bottom: 20px; 
+  text-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+}
+
+.sub-title { 
+  font-size: 16px; 
+  line-height: 1.6; 
+  color: #ccc; 
+  margin-bottom: 40px; 
+}
+
+.play-button {
+  background: #1ED760; 
+  color: #000; 
+  border: none; 
+  padding: 18px 50px;
+  border-radius: 50px; 
+  font-size: 18px; 
+  font-weight: 900; 
+  cursor: pointer;
+  transition: transform 0.2s; 
+  box-shadow: 0 10px 20px rgba(30, 215, 96, 0.3);
+}
+
+.play-button:active { 
+  transform: scale(0.95); 
+}
