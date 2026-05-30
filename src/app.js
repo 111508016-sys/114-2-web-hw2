@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./app.css";
 import resultTypes from "./resultTypes";
 
@@ -78,24 +78,53 @@ function formatTime(n) {
 }
 
 export default function App() {
-  // 新增一個狀態來控制是否顯示封面頁
   const [isStarted, setIsStarted] = useState(false);
-  
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState([]);
   const total = questions.length;
   const percent = total > 1 ? ((step) / (total - 1)) * 100 : 100; 
+
+  // 1. 預載黑膠圖片，解決結果頁卡頓問題
+  useEffect(() => {
+    if (resultTypes) {
+      Object.values(resultTypes).forEach(result => {
+        if (result.vinylImg) {
+          const img = new Image();
+          img.src = result.vinylImg;
+        }
+      });
+    }
+  }, []);
+
+  // 2. 原生分享功能
+  const handleShare = async () => {
+    const shareData = {
+      title: '飯圈生存鑑定',
+      text: '我剛測完我的專屬追星 B-side，你也來測測看你是哪種粉絲吧！',
+      url: window.location.href, 
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.log('玩家取消分享或分享失敗');
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert('網址已複製！趕快貼給朋友一起測吧！');
+    }
+  };
 
   function handleOptionClick(optionType) {
     setAnswers(prev => [...prev, optionType]);
     setStep(prev => prev + 1);
   }
 
-  // ===== 1. 尚未開始時，顯示封面頁 =====
+  // ===== 狀態 A：尚未開始，顯示封面頁 =====
   if (!isStarted) {
     return (
       <div className="main-bg">
-        {/* 這裡的 class 可以在 app.css 裡對應我們剛剛寫的封面樣式 */}
         <div className="cover-screen">
           <div className="cover-bg-blur"></div> 
           <div className="cover-content">
@@ -109,7 +138,7 @@ export default function App() {
     );
   }
 
-  // ===== 2. 測驗結束時，顯示結果頁 =====
+  // ===== 狀態 B：測驗結束，顯示結果頁 =====
   if (step >= total) {
     const resultCode = getResultType(answers);
     const result = resultTypes[resultCode];
@@ -139,13 +168,25 @@ export default function App() {
           <div className="rec-song">
             <b>推薦單曲：</b>{result.song}
           </div>
-          <button className="try-again-btn" onClick={() => { setIsStarted(false); setStep(0); setAnswers([]); }}>再測一次</button>
+          
+          {/* 加入分享按鈕 */}
+          <button 
+            className="try-again-btn" 
+            style={{ background: '#a356af', marginBottom: '12px', width: '100%', maxWidth: '200px' }} 
+            onClick={handleShare}
+          >
+            ✦ 分享給好友
+          </button>
+          
+          <button className="try-again-btn" style={{ width: '100%', maxWidth: '200px' }} onClick={() => { setIsStarted(false); setStep(0); setAnswers([]); }}>
+            ↺ 再測一次
+          </button>
         </div>
       </div>
     );
   }
 
-  // ===== 3. 測驗進行中，顯示題目 =====
+  // ===== 狀態 C：測驗進行中，顯示題目 =====
   return (
     <div className="main-bg">
       <div className="center-card">
